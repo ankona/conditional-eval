@@ -2,10 +2,11 @@ import typing as t
 from conditional import Conditional
 
 class Node:
-    def __init__(self, key: str):
+    def __init__(self, key: str, action: t.Union[t.Callable[..., None], None] = None):
         self._next = None
         self._key = key
         self.edges: t.List[Edge] = []
+        self.action = action
 
     @property
     def key(self) -> str:
@@ -33,12 +34,17 @@ class Edge:
 
 def execute_workflow(inputs, head: Node):
     """ Traverse the workflow """
-    node = head
-    i = -1
+    pos = -1
+
+    if node := head:
+        if node.action:
+            node.action()
 
     while node:
-        i += 1
-        v = inputs[i]
-        node = node.next(v)
+        pos += 1
+        v = inputs[pos]
+        if node := node.next(v):
+            if node.action:
+                node.action()
     
     print("workflow complete")
