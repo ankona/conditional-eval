@@ -1,6 +1,7 @@
 import typing as t
-from graph import Node, Edge, execute_workflow
+from graph import Node, Edge, execute_workflow, execute_stateless_workflow
 from conditional import NumericalComparisonConditional, OrComparisonConditional, Unconditional
+from state import InMemoryState
 
 def build_mock_action(node_name: str) -> t.Union[t.Callable[..., None], None]:
     def _build_mock_action():
@@ -87,4 +88,9 @@ tc1 = [0.05, 0.2, 0, 0]
 tc2 = [0.51, 0.61, 0, 0]
 
 start_node = build_demo_graph()
-execute_workflow(tc1, start_node)
+# execute_workflow(tc1, start_node)
+
+mem_state = InMemoryState()
+
+while next_node := execute_stateless_workflow(tc1, start_node, mem_state):
+    ...

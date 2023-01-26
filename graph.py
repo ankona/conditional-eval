@@ -1,5 +1,6 @@
 import typing as t
 from conditional import Conditional
+from state import StateHolder, InMemoryState
 
 class Node:
     def __init__(self, key: str, action: t.Union[t.Callable[..., None], None] = None):
@@ -48,3 +49,29 @@ def execute_workflow(inputs, head: Node):
                 node.action()
     
     print("workflow complete")
+
+
+def execute_stateless_workflow(inputs, head: Node, state: StateHolder):
+    """ Demonstrate storing workflow state externally during traversal """
+    pos = -1
+    if spos := state.get('_pos'):
+        pos = spos
+
+    snode = state.get('_node')
+    if snode:
+        node = snode
+    else:
+        if node := head:
+            if node.action:
+                node.action()
+
+    pos += 1
+    v = inputs[pos]
+
+    sibling = node.next(v)
+    state.set('_node', sibling)
+
+    if sibling and sibling.action:
+        sibling.action()
+    
+    return sibling
