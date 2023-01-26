@@ -22,3 +22,13 @@ class PublishBehavior(Behavior):
 
     def execute(self) -> None:
         print(f"\tPublishing mock message to celery queue: {self._queue_name}")
+
+class CompoundBehavior(Behavior):
+    def __init__(self, b1: Behavior, b2: Behavior) -> None:
+        self._b1 = b1
+        self._b2 = b2
+
+    def execute(self) -> None:
+        print("\tExecuting compound behavior:")
+        self._b1()
+        self._b2()

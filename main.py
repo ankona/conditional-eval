@@ -1,7 +1,7 @@
 from graph import Node, Edge, execute_workflow, execute_stateless_workflow
 from conditional import NumericalComparisonConditional, OrComparisonConditional, Unconditional
 from state import InMemoryState
-from behavior import PrintBehavior, PublishBehavior
+from behavior import PrintBehavior, PublishBehavior, CompoundBehavior
 
 def build_demo_graph() -> Node:
     """ Build a demo graph and return the start node """
@@ -19,11 +19,15 @@ def build_demo_graph() -> Node:
     #         `h
 
     # Demonstrate that the action can be anything
+    eb1 = PrintBehavior("e")
+    eb2 = PublishBehavior("e")
+    compound_behavior = CompoundBehavior(eb1, eb2)
+
     a = Node("a", action=PrintBehavior("START (a)"))
     b = Node("b", action=PublishBehavior("b"))
     c = Node("c", action=PublishBehavior("c"))
     d = Node("d", action=PublishBehavior("d"))
-    e = Node("e", action=PublishBehavior("e"))
+    e = Node("e", action=compound_behavior)
     f = Node("f", action=PublishBehavior("f"))
     g = Node("g", action=PublishBehavior("g"))
     h = Node("h", action=PublishBehavior("h"))
