@@ -11,10 +11,10 @@ def build_mock_action(node_name: str) -> t.Union[t.Callable[..., None], None]:
 def build_demo_graph() -> Node:
     """ Build a demo graph and return the start node """
     # Example Graph Layout
-    #    ,b-----e
+    #    ,b-----d
     #   / \      \
     #  /   \      \  
-    # a     `d-----\    
+    # a     `e-----\    
     #  \            \  
     #   \    ,f-----/i      
     #    \  /      /   
@@ -57,8 +57,6 @@ def build_demo_graph() -> Node:
     ch = Edge(c, h, NumericalComparisonConditional("gt", 0.6))
 
     # Test unconditional traversal to end node
-    bi = Edge(b, i, Unconditional())
-    ci = Edge(c, i, Unconditional())
     di = Edge(d, i, Unconditional())
     ei = Edge(e, i, Unconditional())
     fi = Edge(f, i, Unconditional())
@@ -75,12 +73,11 @@ def build_demo_graph() -> Node:
     c.edges.append(cg)
     c.edges.append(ch)
 
-    b.edges.append(bi)
-    c.edges.append(ci)
     d.edges.append(di)
     e.edges.append(ei)
     f.edges.append(fi)
     g.edges.append(gi)
+    h.edges.append(gi)
 
     return a
 
