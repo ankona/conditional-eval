@@ -1,7 +1,7 @@
 from graph import Node, Edge, execute_workflow, execute_stateless_workflow
 from conditional import NumericalComparisonConditional, OrComparisonConditional, Unconditional
 from state import InMemoryState
-from behavior import PrintBehavior, PublishBehavior, CompoundBehavior
+from behavior import PrintBehavior, PublishBehavior, CompoundBehavior, CallbackBehavior
 
 def build_demo_graph() -> Node:
     """ Build a demo graph and return the start node """
@@ -23,6 +23,10 @@ def build_demo_graph() -> Node:
     eb2 = PublishBehavior("e")
     compound_behavior = CompoundBehavior(eb1, eb2)
 
+    end1 = PrintBehavior("STOP (i)")
+    end2 = CallbackBehavior("https://api.clientcompany.com/callback")
+    end_behavior = CompoundBehavior(end1, end2)
+
     a = Node("a", action=PrintBehavior("START (a)"))
     b = Node("b", action=PublishBehavior("b"))
     c = Node("c", action=PublishBehavior("c"))
@@ -31,7 +35,7 @@ def build_demo_graph() -> Node:
     f = Node("f", action=PublishBehavior("f"))
     g = Node("g", action=PublishBehavior("g"))
     h = Node("h", action=PublishBehavior("h"))
-    i = Node("i", action=PrintBehavior("STOP (i)"))
+    i = Node("i", action=end_behavior)
 
     # Test a compound evaluator with a "hole"
     x1 = NumericalComparisonConditional("lt", 0.1)

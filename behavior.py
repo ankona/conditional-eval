@@ -13,7 +13,7 @@ class PrintBehavior(Behavior):
         self._msg = msg
 
     def execute(self) -> None:
-        print(f"\tExecuting mock action: {self._msg}")
+        print(f"\tExecuting log action: {self._msg}")
 
 
 class PublishBehavior(Behavior):
@@ -22,6 +22,13 @@ class PublishBehavior(Behavior):
 
     def execute(self) -> None:
         print(f"\tPublishing mock message to celery queue: {self._queue_name}")
+
+class CallbackBehavior(Behavior):
+    def __init__(self, endpoint: str) -> None:
+        self._endpoint = endpoint
+
+    def execute(self) -> None:
+        print(f"\tPOST {self._endpoint}")
 
 class CompoundBehavior(Behavior):
     def __init__(self, b1: Behavior, b2: Behavior) -> None:
