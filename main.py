@@ -26,22 +26,31 @@ def build_demo_graph() -> Node:
     i = Node("i")
     j = Node("j")
 
+    # Test a compound evaluator with a "hole"
     x1 = NumericalComparisonConditional("lt", 0.1)
     x2 = NumericalComparisonConditional("gt", 0.2)
-
     compound = OrComparisonConditional(x1, x2)
+
+    # TODO: Complete AndConditional And Test value in the hole
+    # TODO: Consider BetweenConditional or stick with construction using elementary operators?
+    # h1 = NumericalComparisonConditional("gte", 0.1)
+    # h2 = NumericalComparisonConditional("lte", 0.2)
+    # and_compound = AndComparisonConditional(h1, h2)
 
     # ab = Edge(a, b, NumericalComparisonConditional("lte", 0.5))
     ab = Edge(a, b, compound)
     ac = Edge(a, c, NumericalComparisonConditional("gt", 0.5))
 
+    # Testing edge case correctness (greater than or equal to)
     bd = Edge(b, e, NumericalComparisonConditional("lt", 0.2))
     be = Edge(b, e, NumericalComparisonConditional("gte", 0.2))
 
+    # Testing fallthrough behavior
     cf = Edge(c, f, NumericalComparisonConditional("gt", 0.8))
     cg = Edge(c, g, NumericalComparisonConditional("gt", 0.7))
     ch = Edge(c, h, NumericalComparisonConditional("gt", 0.6))
 
+    # Test unconditional traversal to end node
     bi = Edge(b, i, Unconditional())
     ci = Edge(c, i, Unconditional())
     di = Edge(d, i, Unconditional())
