@@ -77,7 +77,7 @@ def build_demo_graph() -> Node:
     e.edges.append(ei)
     f.edges.append(fi)
     g.edges.append(gi)
-    h.edges.append(gi)
+    h.edges.append(hi)
 
     return a
 
