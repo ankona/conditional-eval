@@ -71,6 +71,7 @@ def execute_stateless_workflow(inputs, head: Node, state: StateHolder):
 
     sibling = node.next(v)
     state.set('_node', sibling)
+    state.set('_pos', pos)
 
     if sibling and sibling.action:
         sibling.action()
