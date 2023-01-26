@@ -55,7 +55,8 @@ def execute_workflow(inputs, head: Node):
 def execute_stateless_workflow(inputs, head: Node, state: StateHolder):
     """ Demonstrate storing workflow state externally during traversal """
     pos = -1
-    if spos := state.get('_pos'):
+    spos = state.get('_pos')
+    if spos is not None and spos > -1:
         pos = spos
 
     snode = state.get('_node')
