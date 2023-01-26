@@ -1,12 +1,7 @@
-import typing as t
 from graph import Node, Edge, execute_workflow, execute_stateless_workflow
 from conditional import NumericalComparisonConditional, OrComparisonConditional, Unconditional
 from state import InMemoryState
-
-def build_mock_action(node_name: str) -> t.Union[t.Callable[..., None], None]:
-    def _build_mock_action():
-        print(f"\tExecuting mock action: {node_name}")
-    return _build_mock_action
+from behavior import PrintBehavior, PublishBehavior
 
 def build_demo_graph() -> Node:
     """ Build a demo graph and return the start node """
@@ -22,15 +17,17 @@ def build_demo_graph() -> Node:
     #       \    /
     #        \  /
     #         `h
-    a = Node("a", action=build_mock_action("START"))
-    b = Node("b", action=build_mock_action("b"))
-    c = Node("c", action=build_mock_action("c"))
-    d = Node("d", action=build_mock_action("d"))
-    e = Node("e", action=build_mock_action("e"))
-    f = Node("f", action=build_mock_action("f"))
-    g = Node("g", action=build_mock_action("g"))
-    h = Node("h", action=build_mock_action("h"))
-    i = Node("i", action=build_mock_action("STOP"))
+
+    # Demonstrate that the action can be anything
+    a = Node("a", action=PrintBehavior("START (a)"))
+    b = Node("b", action=PublishBehavior("b"))
+    c = Node("c", action=PublishBehavior("c"))
+    d = Node("d", action=PublishBehavior("d"))
+    e = Node("e", action=PublishBehavior("e"))
+    f = Node("f", action=PublishBehavior("f"))
+    g = Node("g", action=PublishBehavior("g"))
+    h = Node("h", action=PublishBehavior("h"))
+    i = Node("i", action=PrintBehavior("STOP (i)"))
 
     # Test a compound evaluator with a "hole"
     x1 = NumericalComparisonConditional("lt", 0.1)

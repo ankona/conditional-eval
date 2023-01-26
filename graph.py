@@ -1,9 +1,10 @@
 import typing as t
 from conditional import Conditional
-from state import StateHolder, InMemoryState
+from state import StateHolder
+from behavior import Behavior
 
 class Node:
-    def __init__(self, key: str, action: t.Union[t.Callable[..., None], None] = None):
+    def __init__(self, key: str, action: t.Optional[Behavior] = None):
         self._next = None
         self._key = key
         self.edges: t.List[Edge] = []
