@@ -1,5 +1,5 @@
 from graph import Node, Edge 
-from workflow.linear import execute_stateless_workflow as linear_workflow
+from workflow import linear
 from conditional import NumericalComparisonConditional, OrComparisonConditional, Unconditional
 from state import InMemoryState, FileState
 from behavior import PrintBehavior, PublishBehavior, CompoundBehavior, CallbackBehavior
@@ -101,6 +101,6 @@ if os.path.exists(filename):
 # state_holder = InMemoryState()
 state_holder = FileState(filename)
 
-while next_node := linear_workflow(tc1, start_node, state_holder):
+while next_node := linear.execute_stateless_workflow(tc1, start_node, state_holder):
     ...
 
