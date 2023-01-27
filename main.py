@@ -1,4 +1,5 @@
-from graph import Node, Edge, execute_workflow, execute_stateless_workflow
+from graph import Node, Edge 
+from workflow.linear import execute_stateless_workflow as linear_workflow
 from conditional import NumericalComparisonConditional, OrComparisonConditional, Unconditional
 from state import InMemoryState
 from behavior import PrintBehavior, PublishBehavior, CompoundBehavior, CallbackBehavior
@@ -94,5 +95,5 @@ start_node = build_demo_graph()
 
 mem_state = InMemoryState()
 
-while next_node := execute_stateless_workflow(tc1, start_node, mem_state):
+while next_node := linear_workflow(tc1, start_node, mem_state):
     ...
