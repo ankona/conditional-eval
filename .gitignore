@@ -1,3 +1,4 @@
 .vscode/*
 .dccache
 **/__pycache__/*
+*.pickle

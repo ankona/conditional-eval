@@ -1,7 +1,7 @@
 from graph import Node, Edge 
 from workflow.linear import execute_stateless_workflow as linear_workflow
 from conditional import NumericalComparisonConditional, OrComparisonConditional, Unconditional
-from state import InMemoryState
+from state import InMemoryState, FileState
 from behavior import PrintBehavior, PublishBehavior, CompoundBehavior, CallbackBehavior
 
 def build_demo_graph() -> Node:
@@ -93,7 +93,14 @@ tc2 = [0.51, 0.61, 0, 0]
 start_node = build_demo_graph()
 # execute_workflow(tc1, start_node)
 
-mem_state = InMemoryState()
+filename = "state.pickle"
+import os
+if os.path.exists(filename):
+    os.remove(filename)
 
-while next_node := linear_workflow(tc1, start_node, mem_state):
+# state_holder = InMemoryState()
+state_holder = FileState(filename)
+
+while next_node := linear_workflow(tc1, start_node, state_holder):
     ...
+
